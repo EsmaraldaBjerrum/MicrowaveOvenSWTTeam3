@@ -42,7 +42,11 @@ namespace Microwave.Application
 
             timeButton.Press();
 
+           
+
             startCancelButton.Press();
+
+            door.Open();
 
             // The simple sequence should now run
 
