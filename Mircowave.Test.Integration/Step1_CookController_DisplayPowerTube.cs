@@ -39,7 +39,9 @@ namespace Mircowave.Test.Integration
        {
            _fakeTimer.TimerTick += Raise.EventWith(this, EventArgs.Empty);
 
-           _fakeOutput.Received(1);
+           _fakeOutput.Received(1).OutputLine(Arg.Any<string>());
+           _fakeOutput.Received(1).OutputLine(Arg.Is<string>(str => str.Contains(":")));
+           
 
        }
 
