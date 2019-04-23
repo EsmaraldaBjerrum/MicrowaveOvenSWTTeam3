@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Castle.Core.Smtp;
 using MicrowaveOvenClasses.Boundary;
 using MicrowaveOvenClasses.Controllers;
 using MicrowaveOvenClasses.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
+using Timer = MicrowaveOvenClasses.Boundary.Timer;
 
 namespace Mircowave.Test.Integration
 {
@@ -19,6 +22,7 @@ namespace Mircowave.Test.Integration
       private CookController _sut;
       private IOutput _fakeOutput;
       private Timer _timer;
+      private IUserInterface _fakeUI;
 
 
       [SetUp]
@@ -29,33 +33,30 @@ namespace Mircowave.Test.Integration
          _display = new Display(_fakeOutput);
          _powerTube = new PowerTube(_fakeOutput);
          _sut = new CookController(_timer, _display, _powerTube);
+         _fakeUI = Substitute.For<IUserInterface>();
+         _sut.UI = _fakeUI;
       }
 
       [Test]
       public void Test_SUT_To_Timer_Start()
       {
-         _sut.StartCooking(50,50);
+         ManualResetEvent pause = new ManualResetEvent(false);
 
-         _timer.Start(50);
-         Assert.That(_timer.TimeRemaining, Is.EqualTo(50));
+         _sut.StartCooking(50,50);
+         pause.WaitOne(1100);
+         _fakeOutput.Received().OutputLine(Arg.Is("00:49"));
       }
 
       [Test]
       public void Test_SUT_To_Timer_Stop()
       {
-         _sut.Stop();
+        
+         _sut.StartCooking(50,50);
+         _sut.OnTimerExpired(this,EventArgs.Empty);
+         _fakeOutput.Received().OutputLine(Arg.Is<string>(str => str.Contains("off")));
 
-         _timer.Stop();
-         //Assert.That(_timer., Is.EqualTo(false));
+         
       }
-
-      [Test]
-      public void Test_SUT_To_Powertube_TurnOffByEvent()
-      {
-        _timer.TimerTick += Raise.EventWith(this, EventArgs.Empty);
-        //Assert.That(_timer.TimeRemaining, Is.EqualTo()
-      }
-
-
+      
    }
 }
