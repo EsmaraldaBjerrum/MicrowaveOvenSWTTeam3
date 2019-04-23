@@ -37,7 +37,7 @@ namespace Mircowave.Test.Integration
         {
             _sut.Expired += Raise.EventWith(this, EventArgs.Empty);
 
-            Assert.That();
+            //Assert.That();
         }
     }
 }

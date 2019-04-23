@@ -62,6 +62,7 @@
     <Compile Include="Step3_Timer_CookController.cs" />
     <Compile Include="Step4_Button_UI.cs" />
     <Compile Include="Step2_CookController_Timer.cs" />
+    <Compile Include="Step6_UI_DisplayLight.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
