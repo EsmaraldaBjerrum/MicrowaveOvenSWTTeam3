@@ -47,7 +47,7 @@ namespace Mircowave.Test.Integration
         }
 
         [Test]
-        public void Test_sutTimer_UI()
+        public void Test_sutTimer_UI_DisplayShowTime()
         {
 
             _sutPower.Press();
@@ -56,7 +56,7 @@ namespace Mircowave.Test.Integration
         }
 
         [Test]
-        public void Test_sutSC_UI_Light()
+        public void Test_sutSC_UI_LightTurnOn()
         {
             _sutPower.Press();
             _sutTimer.Press();
@@ -65,10 +65,42 @@ namespace Mircowave.Test.Integration
         }
 
         [Test]
-        public void Test_sutSC_UI_Display()
+        public void Test_sutSC_UI_CookControllerStartCooking()
         {
+            _sutPower.Press();
+            _sutTimer.Press();
             _sutSC.Press();
-            _fakeCookController.Stop();
+            _fakeCookController.Received(1).StartCooking(50, 60);
+        }
+
+        [Test]
+        public void Test_sutSC_UI_CookControllerStop()
+        {
+            _sutPower.Press();
+            _sutTimer.Press();
+            _sutSC.Press();
+            _sutSC.Press();
+            _fakeCookController.Received(1).Stop();
+        }
+
+        [Test]
+        public void Test_sutSC_UI_DisplayClear()
+        {
+            _sutPower.Press();
+            _sutTimer.Press();
+            _sutSC.Press();
+            _sutSC.Press();
+            _fakeDisplay.Received(2).Clear();
+        }
+
+        [Test]
+        public void Test_sutSC_UI_LightOff()
+        {
+            _sutPower.Press();
+            _sutTimer.Press();
+            _sutSC.Press();
+            _sutSC.Press();
+            _fakeLight.Received(1).TurnOff();
         }
 
     }
