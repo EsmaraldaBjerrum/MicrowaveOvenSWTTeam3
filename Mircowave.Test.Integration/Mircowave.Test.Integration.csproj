@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Step1_CookController_DisplayPowerTube.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Step3_Timer_CookController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

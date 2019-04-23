@@ -51,6 +51,5 @@ namespace MicrowaveOvenClasses.Boundary
                 Expire();
             }
         }
-
     }
 }
