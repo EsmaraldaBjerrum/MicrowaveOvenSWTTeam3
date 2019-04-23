@@ -22,48 +22,53 @@ namespace Mircowave.Test.Integration
        private CookController _sut;
        private IOutput _fakeOutput;
        private ITimer _fakeTimer;
+       private IUserInterface _fakeUserInterface;
        
         
         [SetUp]
        public void SetUp()
-       {
+        {
+            _fakeUserInterface = Substitute.For<IUserInterface>();
            _fakeOutput = Substitute.For<IOutput>();
            _fakeTimer = Substitute.For<ITimer>();
             _display = new Display(_fakeOutput);
            _powerTube = new PowerTube(_fakeOutput);
-           _sut = new CookController(_fakeTimer,_display,_powerTube);
+           _sut = new CookController(_fakeTimer,_display,_powerTube,_fakeUserInterface);
        }
 
        [Test]
-       public void Test_SUT_To_Display()
+       public void Test_SUT_To_Display_Showtime()
        {
-           _fakeTimer.TimerTick += Raise.EventWith(this, EventArgs.Empty);
+          _fakeTimer.TimerTick += Raise.EventWith(this, EventArgs.Empty);
 
+           //Nedenfor er to forskellige måder at gøre det samme...
            _fakeOutput.Received(1).OutputLine(Arg.Any<string>());
            _fakeOutput.Received(1).OutputLine(Arg.Is<string>(str => str.Contains(":")));
            
-
        }
 
        [Test]
        public void Test_SUT_To_Powertube_TurnOn()
        {
            _sut.StartCooking(50,50);
-           _fakeOutput.Received(1);
+           _fakeOutput.Received(1).OutputLine(Arg.Is<string>(str => str.Contains("50")));
        }
 
+      
        [Test]
        public void Test_SUT_To_Powertube_TurnOffByStop()
        {
+           _sut.StartCooking(50,50);
            _sut.Stop();
-           _fakeOutput.Received(1);
+           _fakeOutput.Received(1).OutputLine(Arg.Is<string>(str => str.Contains("off")));
        }
 
        [Test]
-       public void Test_SUT_To_Powertube_TurnOffByEvent()
+       public void Test_SUT_To_Powertube_TurnOffByExpiredEvent()
        {
+           _sut.StartCooking(50,50);
            _fakeTimer.Expired += Raise.EventWith(this, EventArgs.Empty);
-           _fakeOutput.Received(1);
+           _fakeOutput.Received(1).OutputLine(Arg.Is<string>(str => str.Contains("off")));
        }
     }
 }

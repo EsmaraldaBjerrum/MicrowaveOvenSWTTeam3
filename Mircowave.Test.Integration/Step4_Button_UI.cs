@@ -35,7 +35,8 @@ namespace Mircowave.Test.Integration
             _sutTimer = new Button();
             _sutSC = new Button();
             _fakePowerTube = Substitute.For<IPowerTube>();
-            UI = new UserInterface(_sutPower, _sutTimer, _sutSC, _fakeDoor, _fakeDisplay, _fakeLight, _fakeCookController);
+            UI = new UserInterface(_sutPower, _sutTimer, _sutSC, _fakeDoor, _fakeDisplay, _fakeLight,
+                _fakeCookController);
         }
 
         [Test]
@@ -48,7 +49,7 @@ namespace Mircowave.Test.Integration
         [Test]
         public void Test_sutTimer_UI()
         {
-            
+
             _sutPower.Press();
             _sutTimer.Press();
             _fakeDisplay.Received().ShowTime(Arg.Is<int>(1), Arg.Is<int>(0));
@@ -69,9 +70,6 @@ namespace Mircowave.Test.Integration
             _sutSC.Press();
             _fakeCookController.Stop();
         }
-
-
-
 
     }
 }

@@ -37,7 +37,18 @@ namespace Mircowave.Test.Integration
         {
             _sut.Expired += Raise.EventWith(this, EventArgs.Empty);
 
-            Assert.That();
+            _fakeOutput.Received(1).OutputLine(Arg.Is<string>(str => str.Contains("off")));
+
+        }
+
+        [Test]
+        public void Test_OnTimerTick_To_Cookcontrol_ShowtimeIsCalled()
+        {
+            _sut.TimerTick += Raise.EventWith(this, EventArgs.Empty);
+
+            _fakeOutput.Received(1).OutputLine(Arg.Is<string>(str => str.Contains(":")));
+        
+
         }
     }
 }
