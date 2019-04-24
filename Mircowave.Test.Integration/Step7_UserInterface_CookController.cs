@@ -45,5 +45,39 @@ namespace Mircowave.Test.Integration
             _cookController.UI = _sut;
         }
 
+        [Test]
+        public void Test_UI_Calls_CookController_WithTStartCooking()
+        {
+            _powerButton.Press();
+            _timerButton.Press();
+            _startCancelButton.Press();
+
+            _fakeOutput.Received().OutputLine(Arg.Is<string>(str => str.Contains("50 W")));
+
+        }
+
+        [Test]
+        public void Test_UI_CallsStop_OnCookController_DueToOpenedDoor()
+        {
+            _powerButton.Press();
+            _timerButton.Press();
+            _startCancelButton.Press();
+            _door.Open();
+
+            _fakeOutput.Received().OutputLine(Arg.Is<string>(str => str.Contains("off")));
+
+        }
+
+        [Test]
+        public void Test_UI_CallsStop_OnCookController_DueToPressedStartCancel()
+        {
+            _powerButton.Press();
+            _timerButton.Press();
+            _startCancelButton.Press();
+            _startCancelButton.Press();
+
+            _fakeOutput.Received().OutputLine(Arg.Is<string>(str => str.Contains("off")));
+
+        }
     }
 }
