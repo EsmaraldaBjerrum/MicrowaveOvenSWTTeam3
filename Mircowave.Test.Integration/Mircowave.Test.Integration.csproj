@@ -65,6 +65,7 @@
     <Compile Include="Step6_UI_DisplayLight.cs" />
     <Compile Include="Step5_Door_UI.cs" />
     <Compile Include="Step7_UserInterface_CookController.cs" />
+    <Compile Include="Step8_Cookcontroller_UserInterface.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

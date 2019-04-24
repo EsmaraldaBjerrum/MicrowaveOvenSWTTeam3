@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MicrowaveOvenClasses.Boundary;
 using MicrowaveOvenClasses.Controllers;
+using MicrowaveOvenClasses.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -20,16 +21,20 @@ namespace Mircowave.Test.Integration
         private Display _display;
         private PowerTube _powerTube;
         private Output _fakeOutput;
+       private IUserInterface _fakUserInterface;
 
 
         [SetUp]
         public void SetUp()
         {
             _fakeOutput = Substitute.For<Output>();
+           _fakUserInterface = Substitute.For<IUserInterface>();
             _display = new Display(_fakeOutput);
             _powerTube = new PowerTube(_fakeOutput);
             _sut = new Timer();
-            _cookController = new CookController(_sut, _display, _powerTube);
+            _cookController = new CookController(_sut, _display, _powerTube,_fakUserInterface);
+
+           
         }
 
         [Test]
