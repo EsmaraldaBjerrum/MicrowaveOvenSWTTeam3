@@ -57,6 +57,18 @@ namespace Mircowave.Test.Integration
         }
 
         [Test]
+        public void Test_sutPower100_UI()
+        {
+            for (int i = 0; i < 1; i++)
+            {
+                _powerButton.Press();
+            }
+            _timerButton.Press();
+            _startCancelButton.Press();
+            _fakeOutput.Received().OutputLine(Arg.Is<string>(str => str.Contains("7 %")));
+        }
+
+        [Test]
         public void Test_UI_CallsStop_OnCookController_DueToOpenedDoor()
         {
             _powerButton.Press();

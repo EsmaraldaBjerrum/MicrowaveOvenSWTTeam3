@@ -44,6 +44,8 @@ namespace Mircowave.Test.Integration
            //Nedenfor er to forskellige måder at gøre det samme...
            _fakeOutput.Received(1).OutputLine(Arg.Any<string>());
            _fakeOutput.Received(1).OutputLine(Arg.Is<string>(str => str.Contains(":")));
+
+           _fakeTimer.Stop();
            
        }
 
@@ -51,7 +53,8 @@ namespace Mircowave.Test.Integration
        public void Test_SUT_To_Powertube_TurnOn()
        {
            _sut.StartCooking(50,50);
-           _fakeOutput.Received(1).OutputLine(Arg.Is<string>(str => str.Contains("50")));
+           _fakeOutput.Received(1).OutputLine(Arg.Is<string>(str => str.Contains("7")));
+           _fakeTimer.Stop();
        }
 
       
@@ -61,6 +64,7 @@ namespace Mircowave.Test.Integration
            _sut.StartCooking(50,50);
            _sut.Stop();
            _fakeOutput.Received(1).OutputLine(Arg.Is<string>(str => str.Contains("off")));
+           _fakeTimer.Stop();
        }
 
        [Test]
@@ -69,6 +73,8 @@ namespace Mircowave.Test.Integration
            _sut.StartCooking(50,50);
            _fakeTimer.Expired += Raise.EventWith(this, EventArgs.Empty);
            _fakeOutput.Received(1).OutputLine(Arg.Is<string>(str => str.Contains("off")));
+
+           _fakeTimer.Stop();
        }
     }
 }

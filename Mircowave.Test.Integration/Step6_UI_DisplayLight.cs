@@ -41,13 +41,100 @@ namespace Mircowave.Test.Integration
         }
 
         [Test]
-        public void Test_sut_Display_TurnOn()
+        public void Test_sut_Light_TurnOnFromDoor()
         {
-            _door.Opened += Raise.EventWith(this, EventArgs.Empty);
+            _door.Open();
+            
+            _fakeOutput.Received(1).OutputLine(Arg.Is<string>(str => str.Contains("on")));
+
+
+        }
+
+        [Test]
+        public void Test_sut_Light_TurnOffFromDoor()
+        {
+            _door.Open();
+            _door.Close();
 
             _fakeOutput.Received(1).OutputLine(Arg.Is<string>(str => str.Contains("off")));
-            
+
         }
-        
+
+        [Test]
+        public void Test_sut_Display_ShowPower()
+        {
+            _bPower.Press();
+            _fakeOutput.Received(1).OutputLine(Arg.Is<string>(str => str.Contains("W")));
+        }
+
+        [Test]
+        public void Test_sut_Display_ShowTime()
+        {
+            _bPower.Press();
+            _bTimer.Press();
+            _fakeOutput.Received(2).OutputLine(Arg.Is<string>(str => str.Contains(":")));
+        }
+
+        [Test]
+        public void Test_sut_Light_TurnOnFromStart()
+        {
+            _bPower.Press();
+            _bTimer.Press();
+            _bSC.Press();
+            _fakeOutput.Received().OutputLine(Arg.Is<string>(str => str.Contains("on")));
+
+
+        }
+
+        [Test]
+        public void Test_sut_Display_Clear()
+        {
+            _bPower.Press();
+            _bTimer.Press();
+            _bSC.Press();
+            sut.CookingIsDone();
+            _fakeOutput.Received().OutputLine(Arg.Is<string>(str => str.Contains("clear")));
+        }
+
+        [Test]
+        public void Test_sut_Light_TurnOffFromCookingDone()
+        {
+            _bPower.Press();
+            _bTimer.Press();
+            _bSC.Press();
+            sut.CookingIsDone();
+            _fakeOutput.Received().OutputLine(Arg.Is<string>(str => str.Contains("off")));
+        }
+
+        [Test]
+        public void Test_sut_Display_ClearFromDoor()
+        {
+            _bPower.Press();
+            _bTimer.Press();
+            _bSC.Press();
+            _door.Open();
+            _fakeOutput.Received().OutputLine(Arg.Is<string>(str => str.Contains("clear")));
+        }
+
+        [Test]
+        public void Test_sut_Display_ClearFromButtom()
+        {
+            _bPower.Press();
+            _bTimer.Press();
+            _bSC.Press();
+            _bSC.Press();
+            _fakeOutput.Received().OutputLine(Arg.Is<string>(str => str.Contains("clear")));
+        }
+
+        [Test]
+        public void Test_sut_Light_TurnOffFromButtom()
+        {
+            _bPower.Press();
+            _bTimer.Press();
+            _bSC.Press();
+            _bSC.Press();
+            _fakeOutput.Received().OutputLine(Arg.Is<string>(str => str.Contains("off")));
+        }
+
     }
 }
