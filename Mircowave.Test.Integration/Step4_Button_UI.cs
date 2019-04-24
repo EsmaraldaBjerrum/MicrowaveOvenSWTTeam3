@@ -46,6 +46,8 @@ namespace Mircowave.Test.Integration
             _fakeDisplay.Received().ShowPower(50);
         }
 
+        
+
         [Test]
         public void Test_sutTimer_UI_DisplayShowTime()
         {
