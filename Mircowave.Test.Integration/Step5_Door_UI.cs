@@ -39,7 +39,26 @@ namespace Mircowave.Test.Integration
       [Test]
       public void Test_sut_doorOpened_LightOn()
       {
-         //_sut.Opened += (sender, args) => 
+         _sut.Open();
+         _fakeLight.Received().TurnOn();
+      }
+
+      [Test]
+      public void Test_sut_doorClosed_LightOff()
+      {
+         _sut.Open();
+         _sut.Close();
+         _fakeLight.Received().TurnOff();
+      }
+
+      [Test]
+      public void Test_sut_doorOpenWhileCooking_CookControllerStopped()
+      {
+         _bPower.Press();
+         _bTimer.Press();
+         _bStart.Press();
+         _sut.Open();
+         _fakeCookController.Received(1).Stop();
       }
    }
 }
