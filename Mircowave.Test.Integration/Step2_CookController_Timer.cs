@@ -64,10 +64,14 @@ namespace Mircowave.Test.Integration
       [Test]
       public void Test_SUT_To_Powertube_TurnOffByEvent()
       {
-        //_timer.TimerTick += Raise.EventWith(this, EventArgs.Empty);
-        ////Assert.That(_timer.TimeRemaining, Is.EqualTo()
-        // _timer.Stop();
-      }
+          ManualResetEvent pause = new ManualResetEvent(false);
+
+          _sut.StartCooking(50, 1);
+          pause.WaitOne(3000);
+          _fakeOutput.Received().OutputLine(Arg.Is<string>(str => str.Contains("off")));
+
+          _timer.Stop();
+        }
       
    }
 }
