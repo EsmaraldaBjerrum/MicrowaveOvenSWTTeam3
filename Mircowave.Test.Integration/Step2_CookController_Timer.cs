@@ -55,7 +55,15 @@ namespace Mircowave.Test.Integration
          _sut.OnTimerExpired(this,EventArgs.Empty);
          _fakeOutput.Received().OutputLine(Arg.Is<string>(str => str.Contains("off")));
 
-         
+         _timer.Stop();
+         Assert.That(_timer., Is.EqualTo(false));
+      }
+
+      [Test]
+      public void Test_SUT_To_Powertube_TurnOffByEvent()
+      {
+        _timer.TimerTick += Raise.EventWith(this, EventArgs.Empty);
+        Assert.That(_timer.TimeRemaining, Is.EqualTo()
       }
       
    }
