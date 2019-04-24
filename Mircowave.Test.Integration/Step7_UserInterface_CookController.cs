@@ -52,7 +52,7 @@ namespace Mircowave.Test.Integration
             _timerButton.Press();
             _startCancelButton.Press();
 
-            _fakeOutput.Received().OutputLine(Arg.Is<string>(str => str.Contains("50 W")));
+            _fakeOutput.Received().OutputLine(Arg.Is<string>(str => str.Contains("7")));
 
         }
 
